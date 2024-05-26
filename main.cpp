@@ -24,7 +24,7 @@ int main() {
     Sprite shadowSprite(shadowTexture);
     Sprite pyramidSprite(pyramidTexture);
     Sprite desertSprite(desertTexture);
-    Sprite trainSprite(trainTexture);
+    //Sprite trainSprite(trainTexture);
 
     // Configurar las posiciones iniciales
     skySprite.setPosition(0, 0);
