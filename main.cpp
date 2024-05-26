@@ -3,16 +3,11 @@
 #include <vector>
 using namespace sf;
 
-
 int main() {
     
     // Crear una ventana SFML
-<<<<<<< HEAD
-    RenderWindow window(VideoMode(800, 800), "Parallax Effect");
-
-=======
     sf::RenderWindow window(sf::VideoMode(800, 800), "Parallax Effect");
->>>>>>> 2b82972962474eb439c98cad95d4bf777c122d52
+
     // Cargar texturas
     Texture skyTexture, shadowTexture, pyramidTexture, desertTexture, trainTexture;
     if (!skyTexture.loadFromFile("fondonoche.png") ||
