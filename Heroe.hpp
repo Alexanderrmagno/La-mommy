@@ -7,9 +7,8 @@
 using namespace std;
 
 int bazinga() {
-    sf::RenderWindow window(sf::VideoMode(800, 800), "Movimiento de personaje con WASD");
+    sf::RenderWindow window(sf::VideoMode(800, 800), "Movimiento de personaje");
 
-    // Cargar la textura del personaje
     sf::Texture texture;
     if (!texture.loadFromFile("boptoronja.png")) {
         std::cerr << "Error al cargar la imagen character.png" << std::endl;
@@ -18,10 +17,10 @@ int bazinga() {
 
     // Crear el sprite y asignarle la textura
     sf::Sprite character(texture);
-    character.setPosition(400.f, 400.f); // Posición inicial del personaje en el centro
+    character.setPosition(400.f, 400.f);
 
-    // Dimensiones del cuadrado
-    const float speed = 200.f; // Velocidad de movimiento en píxeles por segundo
+    // velocidad
+    const float speed = 200.f;
 
     sf::Clock clock;
 
@@ -57,11 +56,4 @@ int bazinga() {
 
     return 0;
 }
-
-
-
-
-
-
-
 #endif

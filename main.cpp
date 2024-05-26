@@ -4,9 +4,9 @@
 
 
 int main() {
+    
     // Crear una ventana SFML
     sf::RenderWindow window(sf::VideoMode(800, 800), "Parallax Effect");
-
     // Cargar texturas
     sf::Texture skyTexture, shadowTexture, pyramidTexture, desertTexture, trainTexture;
     if (!skyTexture.loadFromFile("sky.png") ||
@@ -76,5 +76,5 @@ int main() {
         // Mostrar lo dibujado en la ventana
         window.display();
     }
-    return 0;
+    return bazinga();
 }
