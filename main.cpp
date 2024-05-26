@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
-#include "Heroe.h"
+#include "Heroe.hpp"
 #include <vector>
+
 
 int main() {
     // Crear una ventana SFML
@@ -75,6 +76,5 @@ int main() {
         // Mostrar lo dibujado en la ventana
         window.display();
     }
-
     return 0;
 }
