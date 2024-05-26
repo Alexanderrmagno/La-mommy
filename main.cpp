@@ -9,7 +9,7 @@ int main() {
     sf::RenderWindow window(sf::VideoMode(800, 800), "Parallax Effect");
 
     // Cargar texturas
-    Texture skyTexture, shadowTexture, pyramidTexture, desertTexture, trainTexture;
+    Texture skyTexture, shadowTexture, pyramidTexture, desertTexture;
     if (!skyTexture.loadFromFile("fondonoche.png") ||
         !shadowTexture.loadFromFile("Sombras.png") ||
         !pyramidTexture.loadFromFile("piramid-pixilart.png") ||
