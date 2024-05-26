@@ -3,7 +3,7 @@
 
 int main() {
     // Crear una ventana SFML
-    sf::RenderWindow window(sf::VideoMode(800, 600), "Parallax Effect");
+    sf::RenderWindow window(sf::VideoMode(800, 800), "Parallax Effect");
 
     // Cargar texturas
     sf::Texture skyTexture, shadowTexture, pyramidTexture, desertTexture, trainTexture;
