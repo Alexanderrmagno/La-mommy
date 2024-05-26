@@ -11,7 +11,7 @@ int bazinga() {
 
     // Cargar la textura del personaje
     sf::Texture texture;
-    if (!texture.loadFromFile("character.png")) {
+    if (!texture.loadFromFile("boptoronja.png")) {
         std::cerr << "Error al cargar la imagen character.png" << std::endl;
         return -1;
     }
@@ -32,10 +32,8 @@ int bazinga() {
                 window.close();
         }
 
-        // Calcular el tiempo transcurrido desde el último frame
         float deltaTime = clock.restart().asSeconds();
 
-        // Movimiento del personaje
         sf::Vector2f movement(0.f, 0.f);
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
             movement.y -= speed * deltaTime;
