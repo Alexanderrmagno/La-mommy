@@ -33,7 +33,6 @@ int main() {
     desertSprite.setPosition(0, 400);
     //trainSprite.setPosition(100, 450);
 
-    // Configurar las velocidades de desplazamiento
     float skySpeed = 0.0f;
     float shadowSpeed = 0.1f;
     float pyramidSpeed = 0.2f;
@@ -49,7 +48,6 @@ int main() {
                 window.close();
         }
 
-        // Actualizar las posiciones de los sprites
         shadowSprite.move(-shadowSpeed, 0);
         pyramidSprite.move(-pyramidSpeed, 0);
         desertSprite.move(-desertSpeed, 0);
@@ -78,5 +76,5 @@ int main() {
         // Mostrar lo dibujado en la ventana
         window.display();
     }
-    return bazinga();
+    return 0;
 }
