@@ -9,12 +9,12 @@ int main() {
     RenderWindow window(sf::VideoMode(600, 600), "Parallax Effect");
 
     // Cargar texturas
-    Texture skyTexture, shadowTexture, pyramidTexture, desertTexture;
+    Texture skyTexture, shadowTexture, pyramidTexture, desertTexture, trainTexture;
     if (!skyTexture.loadFromFile("fondos/fondosky.png") ||
         !shadowTexture.loadFromFile("fondos/Sombras.png") ||
         !pyramidTexture.loadFromFile("fondos/primamid-pixilart.png") ||
-        !desertTexture.loadFromFile("fondos/Vias del tren.png")){ //||
-        //!trainTexture.loadFromFile("train.png")) 
+        !desertTexture.loadFromFile("fondos/Vias del tren.png") ||
+        !trainTexture.loadFromFile("fondos/gohancomoquedolamoto.png")){
         
         return -1; // Error cargando las imágenes
     }
@@ -28,8 +28,9 @@ int main() {
     Sprite shadowSprite(shadowTexture);
     Sprite pyramidSprite(pyramidTexture);
     Sprite desertSprite(desertTexture);
+    Sprite trainSprite(trainTexture);
     desertSprite.setScale(2,2);
-    desertSprite.setTextureRect(IntRect(0,0,1200,600));
+    desertSprite.setTextureRect(IntRect(0,0,600,600));
     
     //Sprite trainSprite(trainTexture);
 
@@ -38,13 +39,13 @@ int main() {
     shadowSprite.setPosition(0, 20);
     pyramidSprite.setPosition(0, 0);
     desertSprite.setPosition(0, 0);
-    //trainSprite.setPosition(100, 450);
+    trainSprite.setPosition(0, -100);
 
     float skySpeed = 0.0f;
     float shadowSpeed = 0.1f;
     float pyramidSpeed = 0.2f;
     float desertSpeed = 0.5f;
-    //float trainSpeed = 0.5f;
+    float trainSpeed = 0.5f;
 
     // Bucle principal
     while (window.isOpen()) {
@@ -78,7 +79,7 @@ int main() {
         window.draw(shadowSprite);
         window.draw(pyramidSprite);
         window.draw(desertSprite);
-        //window.draw(trainSprite);
+        window.draw(trainSprite);
 
         // Mostrar lo dibujado en la ventana
         window.display();
