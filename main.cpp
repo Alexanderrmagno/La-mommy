@@ -91,13 +91,13 @@ int main()
         if (characterSprite.getGlobalBounds().getPosition().y + characterSprite.getLocalBounds().height > groundLevel)
         {
             cout << "suelo" << endl;
-            characterSprite.setPosition(characterSprite.getPosition().x, 330);
+            characterSprite.setPosition(characterSprite.getPosition().x, 335);
         }
         // Verificar si el personaje se sale de la pantalla
         if (characterSprite.getGlobalBounds().getPosition().x < 0 || characterSprite.getGlobalBounds().getPosition().x > window.getSize().x ||
             characterSprite.getGlobalBounds().getPosition().y < 0 || characterSprite.getGlobalBounds().getPosition().y > window.getSize().y)
         {
-            characterSprite.setPosition(300, 330); // Reposicionar en el origen
+            characterSprite.setPosition(300, 335); // Reposicionar en el origen
         }
 
         // Actualizar las posiciones del escenario
