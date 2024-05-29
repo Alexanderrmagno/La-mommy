@@ -7,7 +7,7 @@ using namespace sf;
 int main()
 {
     // Crear una ventana SFML
-    RenderWindow window(sf::VideoMode(600, 600), "Parallax Effect");
+    RenderWindow window(VideoMode(600, 600), "Parallax Effect");
     window.setFramerateLimit(60);
 
     // Cargar texturas
