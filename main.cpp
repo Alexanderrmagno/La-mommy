@@ -46,7 +46,7 @@ int main()
     // Configurar las posiciones iniciales
     skySprite.setPosition(0, 0);
     shadowSprite.setPosition(0, 20);
-    pyramidSprite.setPosition(0, 0);
+    pyramidSprite.setPosition(0, -100);
     desertSprite.setPosition(0, 0);
     trainSprite.setPosition(0, -100);
     characterSprite.setPosition(300, 330); // Centro de la pantalla, 100 arriba del suelo (ubicación del tren)
