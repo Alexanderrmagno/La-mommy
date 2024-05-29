@@ -52,6 +52,10 @@ int main() {
     float desertSpeed = 0.5f;
 
     float characterSpeed = 0.05f;
+    // Gravedad
+    float gravity = 0.1f;
+    float velocityY = 0.0f;
+    float groundLevel = 330; // Nivel del suelo
 
     // Bucle principal
     while (window.isOpen()) {
@@ -62,16 +66,20 @@ int main() {
                 window.close();
         }
 
-        // Movimiento del personaje con WASD
-        if (Keyboard::isKeyPressed(Keyboard::W))
-            characterSprite.move(0, -characterSpeed);
-        if (Keyboard::isKeyPressed(Keyboard::S))
-            characterSprite.move(0, characterSpeed);
-        if (Keyboard::isKeyPressed(Keyboard::A))
-            characterSprite.move(-characterSpeed, 0);
-        if (Keyboard::isKeyPressed(Keyboard::D))
-            characterSprite.move(characterSpeed, 0);
+ // Mover el personaje con WASD
+        velocityY += gravity;
+        if (Keyboard::isKeyPressed(Keyboard::W)) characterSprite.move(0, -velocityY);
+        if (Keyboard::isKeyPressed(Keyboard::A)) characterSprite.move(-characterSpeed, 0);
+        if (Keyboard::isKeyPressed(Keyboard::D)) characterSprite.move(characterSpeed, 0);
 
+        // Aplicar gravedad
+
+
+        // Verificar colisión con el suelo
+        if (characterSprite.getPosition().y + characterSprite.getGlobalBounds().height > groundLevel) {
+            characterSprite.setPosition(characterSprite.getPosition().x, 330);
+            velocityY = 0.0f;
+        }
         // Verificar si el personaje se sale de la pantalla
         if (characterSprite.getPosition().x < 0 || characterSprite.getPosition().x > window.getSize().x ||
             characterSprite.getPosition().y < 0 || characterSprite.getPosition().y > window.getSize().y) {
