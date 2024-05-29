@@ -58,48 +58,68 @@ int main()
 
     float characterSpeed = 3.f;
     // Gravedad
-    float gravity = 5.f;
+    float gravity = 0.f;
     float velocityY = 0.f;
     float groundLevel = 335; // Nivel del tren
+    bool pisando = 0;
 
     // Bucle principal
     while (window.isOpen())
     {
+        if(characterSprite.getGlobalBounds().getPosition().y < groundLevel){
+            pisando = 0;
+        }else{
+            pisando = 1;
+        }
         // Procesar eventos
         Event event;
         while (window.pollEvent(event))
         {
             if (event.type == Event::Closed)
                 window.close();
+            if (event.type == Event::KeyPressed)
+            {
+                if (event.key.code == Keyboard::W && (pisando== 1))
+                {
+                    cout << "salto" << endl;
+                    velocityY = -15.f;
+                    gravity = 1.f;
+                }
+            }
         }
 
         // Mover el personaje con WASD
         velocityY += gravity;
-        if (Keyboard::isKeyPressed(Keyboard::W))
-        {
-            velocityY = -25.f;
-            characterSprite.move(0, velocityY);
-        }
+
         if (Keyboard::isKeyPressed(Keyboard::A))
+        {
+            characterSprite.setScale(0.7, 0.7);
             characterSprite.move(-characterSpeed, 0);
+        }
         if (Keyboard::isKeyPressed(Keyboard::D))
+        {
+                characterSprite.setScale(-0.7, 0.7);
             characterSprite.move(characterSpeed, 0);
+        }
 
         // Aplicar gravedad
+        characterSprite.move(0, velocityY);
 
         // Verificar colisión con el suelo
-        if (characterSprite.getGlobalBounds().getPosition().y + characterSprite.getLocalBounds().height > groundLevel)
+        if (characterSprite.getGlobalBounds().getPosition().y > groundLevel)
         {
-            cout << "suelo" << endl;
-            characterSprite.setPosition(characterSprite.getPosition().x, 335);
+            characterSprite.move(0, -velocityY);
+            gravity = 0;
         }
         // Verificar si el personaje se sale de la pantalla
-        if (characterSprite.getGlobalBounds().getPosition().x < 0 || characterSprite.getGlobalBounds().getPosition().x > window.getSize().x ||
-            characterSprite.getGlobalBounds().getPosition().y < 0 || characterSprite.getGlobalBounds().getPosition().y > window.getSize().y)
+        if (characterSprite.getGlobalBounds().getPosition().x < 0)
         {
-            characterSprite.setPosition(300, 335); // Reposicionar en el origen
+            characterSprite.setPosition(600, 335); // Reposicionar en el lado opuesto
         }
-
+        if (characterSprite.getGlobalBounds().getPosition().x > 600 )
+        {
+            characterSprite.setPosition(50, 335); // Reposicionar en el lado opuesto
+        }
         // Actualizar las posiciones del escenario
         shadowSprite.move(-shadowSpeed, 0);
         pyramidSprite.move(-pyramidSpeed, 0);
