@@ -1,10 +1,14 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <iostream>
+using namespace std;
 using namespace sf;
 
-int main() {
+int main()
+{
     // Crear una ventana SFML
     RenderWindow window(sf::VideoMode(600, 600), "Parallax Effect");
+    window.setFramerateLimit(60);
 
     // Cargar texturas
     Texture skyTexture, shadowTexture, pyramidTexture, desertTexture, trainTexture, characterTexture;
@@ -13,7 +17,8 @@ int main() {
         !pyramidTexture.loadFromFile("fondos/primamid-pixilart.png") ||
         !desertTexture.loadFromFile("fondos/Vias del tren.png") ||
         !trainTexture.loadFromFile("fondos/gohancomoquedolamoto.png") ||
-        !characterTexture.loadFromFile("fondos/boptoronja.png")) {
+        !characterTexture.loadFromFile("fondos/boptoronja.png"))
+    {
         return -1; // Error cargando las imágenes
     }
 
@@ -41,52 +46,59 @@ int main() {
     // Configurar las posiciones iniciales
     skySprite.setPosition(0, 0);
     shadowSprite.setPosition(0, 20);
-    pyramidSprite.setPosition(0, 0);
+    pyramidSprite.setPosition(0, -100);
     desertSprite.setPosition(0, 0);
     trainSprite.setPosition(0, -100);
     characterSprite.setPosition(300, 330); // Centro de la pantalla, 100 arriba del suelo (ubicación del tren)
 
     // Configurar las velocidades de desplazamiento
-    float shadowSpeed = 0.1f;
-    float pyramidSpeed = 0.2f;
-    float desertSpeed = 0.5f;
+    float shadowSpeed = 2.f;
+    float pyramidSpeed = 5.f;
+    float desertSpeed = 10.f;
 
-    float characterSpeed = 0.05f;
+    float characterSpeed = 3.f;
     // Gravedad
-    float gravity = 0.1f;
-    float velocityY = 0.0f;
-    float groundLevel = 330; // Nivel del suelo
+    float gravity = 5.f;
+    float velocityY = 0.f;
+    float groundLevel = 330; // Nivel del tren
 
     // Bucle principal
-    while (window.isOpen()) {
+    while (window.isOpen())
+    {
         // Procesar eventos
         Event event;
-        while (window.pollEvent(event)) {
+        while (window.pollEvent(event))
+        {
             if (event.type == Event::Closed)
                 window.close();
         }
 
- // Mover el personaje con WASD
+        // Mover el personaje con WASD
         velocityY += gravity;
-        if (Keyboard::isKeyPressed(Keyboard::W)) characterSprite.move(0, -velocityY);
-        if (Keyboard::isKeyPressed(Keyboard::A)) characterSprite.move(-characterSpeed, 0);
-        if (Keyboard::isKeyPressed(Keyboard::D)) characterSprite.move(characterSpeed, 0);
+        if (Keyboard::isKeyPressed(Keyboard::W))
+        {
+            velocityY = -25.f;
+            characterSprite.move(0, velocityY);
+        }
+        if (Keyboard::isKeyPressed(Keyboard::A))
+            characterSprite.move(-characterSpeed, 0);
+        if (Keyboard::isKeyPressed(Keyboard::D))
+            characterSprite.move(characterSpeed, 0);
 
         // Aplicar gravedad
 
-
         // Verificar colisión con el suelo
-        if (characterSprite.getPosition().y + characterSprite.getGlobalBounds().height > groundLevel) {
+        if (characterSprite.getGlobalBounds().getPosition().y + characterSprite.getLocalBounds().height > groundLevel)
+        {
+            cout << "suelo" << endl;
             characterSprite.setPosition(characterSprite.getPosition().x, 330);
-            velocityY = 0.0f;
         }
         // Verificar si el personaje se sale de la pantalla
-        if (characterSprite.getPosition().x < 0 || characterSprite.getPosition().x > window.getSize().x ||
-            characterSprite.getPosition().y < 0 || characterSprite.getPosition().y > window.getSize().y) {
+        if (characterSprite.getGlobalBounds().getPosition().x < 0 || characterSprite.getGlobalBounds().getPosition().x > window.getSize().x ||
+            characterSprite.getGlobalBounds().getPosition().y < 0 || characterSprite.getGlobalBounds().getPosition().y > window.getSize().y)
+        {
             characterSprite.setPosition(300, 330); // Reposicionar en el origen
         }
-
-
 
         // Actualizar las posiciones del escenario
         shadowSprite.move(-shadowSpeed, 0);
@@ -107,5 +119,5 @@ int main() {
         // Mostrar lo dibujado en la ventana
         window.display();
     }
-       return 0;
+    return 0;
 }
