@@ -17,7 +17,7 @@ int main()
         !pyramidTexture.loadFromFile("fondos/primamid-pixilart.png") ||
         !desertTexture.loadFromFile("fondos/Vias del tren.png") ||
         !trainTexture.loadFromFile("fondos/gohancomoquedolamoto.png") ||
-        !characterTexture.loadFromFile("fondos/boptoronja.png"))
+        !characterTexture.loadFromFile("fondos/Izquierda.png"))
     {
         return -1; // Error cargando las imágenes
     }
@@ -49,7 +49,7 @@ int main()
     pyramidSprite.setPosition(0, -100);
     desertSprite.setPosition(0, 0);
     trainSprite.setPosition(0, -100);
-    characterSprite.setPosition(300, 330); // Centro de la pantalla, 100 arriba del suelo (ubicación del tren)
+    characterSprite.setPosition(300, 335); // Centro de la pantalla, 100 arriba del suelo (ubicación del tren)
 
     // Configurar las velocidades de desplazamiento
     float shadowSpeed = 2.f;
@@ -60,7 +60,7 @@ int main()
     // Gravedad
     float gravity = 5.f;
     float velocityY = 0.f;
-    float groundLevel = 330; // Nivel del tren
+    float groundLevel = 335; // Nivel del tren
 
     // Bucle principal
     while (window.isOpen())
