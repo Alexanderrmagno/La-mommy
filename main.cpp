@@ -1,10 +1,9 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <iostream>
+#include "bullet .hpp"
 using namespace std;
 using namespace sf;
-
-//int Disparo(int direccion, Vector2f(x,y));
 
 int main()
 {
@@ -126,6 +125,18 @@ int main()
         {
             characterSprite.setPosition(50, 335); // Reposicionar en el lado opuesto
         }
+
+        cout << direction;
+
+        //Disparar
+        if (Keyboard::isKeyPressed(Keyboard::E))
+        {
+            Bullet gun(Vector2f(characterSprite.getGlobalBounds().getPosition().x, (characterSprite.getGlobalBounds().getPosition().y- 10)), direction);
+            cout << "bullet";
+            window.draw(gun);
+        }
+
+
         // Actualizar las posiciones del escenario
         shadowSprite.move(-shadowSpeed, 0);
         pyramidSprite.move(-pyramidSpeed, 0);
@@ -147,8 +158,3 @@ int main()
     }
     return 0;
 }
-/*
-int Disparo(int direccion,Vector2f(x,y)){
-    RectangleShape bullet(3,2);
-return posX,posY;
-}*/
