@@ -4,6 +4,8 @@
 using namespace std;
 using namespace sf;
 
+//int Disparo(int direccion, Vector2f(x,y));
+
 int main()
 {
     // Crear una ventana SFML
@@ -62,6 +64,7 @@ int main()
     float velocityY = 0.f;
     float groundLevel = 335; // Nivel del tren
     bool pisando = 0;
+    bool direction= 1;
 
     // Bucle principal
     while (window.isOpen())
@@ -95,12 +98,15 @@ int main()
         {
             characterSprite.setScale(0.7, 0.7);
             characterSprite.move(-characterSpeed, 0);
+            direction= 1;
         }
         if (Keyboard::isKeyPressed(Keyboard::D))
         {
                 characterSprite.setScale(-0.7, 0.7);
             characterSprite.move(characterSpeed, 0);
+            direction = 0;
         }
+        cout << direction;
 
         // Aplicar gravedad
         characterSprite.move(0, velocityY);
@@ -141,3 +147,8 @@ int main()
     }
     return 0;
 }
+/*
+int Disparo(int direccion,Vector2f(x,y)){
+    RectangleShape bullet(3,2);
+return posX,posY;
+}*/
