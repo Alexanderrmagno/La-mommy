@@ -133,7 +133,7 @@ int main()
         {
             Bullet gun(Vector2f(characterSprite.getGlobalBounds().getPosition().x, (characterSprite.getGlobalBounds().getPosition().y- 10)), direction);
             cout << "bullet";
-            window.draw(gun);
+            gun.drawTo(window);
         }
 
 

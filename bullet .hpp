@@ -11,7 +11,7 @@ struct Bullet {
 
     Bullet(Vector2f position, bool direction) {
         this->shape.setPosition(position);
-        this->shape.setSize(Vector2f(10,4));
+        this->shape.setSize(Vector2f(40,20));
         this->shape.setFillColor(Color::Yellow);
         this->direct=direct;
     }
@@ -22,6 +22,11 @@ struct Bullet {
         this->shape.move(vel,0);
         return shape.getPosition();
     }
+
+    void drawTo(RenderWindow &window)
+{
+    window.draw(this->shape);
+}
 };
 
 
