@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp> // Incluye la biblioteca de audio
 #include <vector>
 #include <iostream>
 #include <cmath> // Para abs
@@ -13,16 +14,19 @@ public:
     float attackDistance; // Distancia para atacar al jugador
     int frame; // Para manejar la animación de los sprites
     vector<Texture> textures;
+    float timeSinceLastFrame; // Tiempo transcurrido desde el último cambio de fotograma
+    float frameInterval; // Intervalo de tiempo entre cambios de fotograma
 
-    Enemy(const vector<Texture>& enemyTextures, float x, float y, float speed)
-        : textures(enemyTextures), speed(speed), direction(1), attackDistance(50.0f), frame(0) {
+    Enemy(const vector<Texture>& enemyTextures, float x, float y, float speed, float frameInterval)
+        : textures(enemyTextures), speed(speed), direction(1), attackDistance(50.0f), frame(0),
+          timeSinceLastFrame(0.0f), frameInterval(frameInterval) {
         sprite.setTexture(textures[frame]);
         sprite.setPosition(x, y);
     }
 
-    void update() {
+    void update(float deltaTime) {
         move();
-        animate();
+        animate(deltaTime);
     }
 
     void move() {
@@ -32,9 +36,13 @@ public:
         }
     }
 
-    void animate() {
-        frame = (frame + 1) % textures.size();
-        sprite.setTexture(textures[frame]);
+    void animate(float deltaTime) {
+        timeSinceLastFrame += deltaTime;
+        if (timeSinceLastFrame >= frameInterval) {
+            frame = (frame + 1) % textures.size();
+            sprite.setTexture(textures[frame]);
+            timeSinceLastFrame = 0.0f;
+        }
     }
 
     bool isNearPlayer(const Sprite& player) {
@@ -43,7 +51,7 @@ public:
 
     void attack(const Sprite& player) {
         if (isNearPlayer(player)) {
-            cout << "Hit" << endl;
+            cout << "Enemy attacks the player!" << endl;
         }
     }
 };
@@ -80,8 +88,8 @@ int main() {
     Sprite trainSprite(trainTexture);
     Sprite characterSprite(characterTexture);
 
-    // Crear el enemigo
-    Enemy enemy(enemyTextures, 100, 335, 2.0f);
+    // Crear el enemigo con un intervalo de fotograma de 0.5 segundos (ajusta según sea necesario)
+    Enemy enemy(enemyTextures, 100, 335, 2.0f, 0.5f);
 
     // Configurar las escalas y rectángulos de textura si es necesario
     characterSprite.setScale(0.7, 0.7);
@@ -111,8 +119,22 @@ int main() {
     bool pisando = 0;
     bool direction = 1;
 
+    // Reloj para medir el tiempo transcurrido
+    Clock clock;
+
+    // Cargar y reproducir música
+    Music gameMusic;
+    if (!gameMusic.openFromFile("musica/Naboris.mp3")) {
+        return -1; // Error cargando la música
+    }
+    gameMusic.setLoop(true); // Hacer que la música se repita
+    gameMusic.play();
+
     // Bucle principal
     while (window.isOpen()) {
+        // Calcular el tiempo transcurrido desde la última iteración
+        float deltaTime = clock.restart().asSeconds();
+
         if(characterSprite.getGlobalBounds().top < groundLevel) {
             pisando = 0;
         } else {
@@ -165,7 +187,7 @@ int main() {
         }
 
         // Actualizar el enemigo
-        enemy.update();
+        enemy.update(deltaTime);
         enemy.attack(characterSprite);
 
         // Actualizar las posiciones del escenario
