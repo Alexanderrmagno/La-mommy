@@ -127,7 +127,7 @@ int main()
         }
 
         cout << direction;
-
+/*
         //Disparar
         if (Keyboard::isKeyPressed(Keyboard::E))
         {
@@ -135,7 +135,7 @@ int main()
             cout << "bullet";
             window.draw(gun);
         }
-
+*/
 
         // Actualizar las posiciones del escenario
         shadowSprite.move(-shadowSpeed, 0);
