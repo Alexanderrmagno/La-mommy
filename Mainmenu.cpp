@@ -1,7 +1,7 @@
 #include "MainMenu.hpp"
 
 MainMenu::MainMenu(float width, float height) {
-    if (!font.loadFromFile("arial.ttf")) {
+    if (!font.loadFromFile("Fonts/")) {
         // Manejar error
     }
 
@@ -23,6 +23,9 @@ MainMenu::MainMenu(float width, float height) {
 }
 
 void MainMenu::draw(sf::RenderWindow &window) {
+    if (backgroundSprite.getTexture()) {
+        window.draw(backgroundSprite);
+    }
     for (auto &item : menu) {
         window.draw(item);
     }
@@ -43,3 +46,14 @@ void MainMenu::moveDown() {
         menu[selectedItemIndex].setFillColor(sf::Color::Red);
     }
 }
+
+void MainMenu::setOptionText(int index, const std::string& text) {
+    if (index >= 0 && index < menu.size()) {
+        menu[index].setString(text);
+    }
+}
+
+void MainMenu::setBackground(const sf::Texture &texture) {
+    backgroundSprite.setTexture(texture);
+}
+

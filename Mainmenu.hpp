@@ -1,5 +1,5 @@
-#ifndef Mainmenu_hpp
-#define Mainmenu_hpp
+#ifndef Mainmenu_HPP
+#define Mainmenu_HPP
 
 #include <SFML/Graphics.hpp>
 #include <vector>
@@ -14,10 +14,14 @@ public:
     void moveDown();
     int getPressedItem() { return selectedItemIndex; }
 
+    void setOptionText(int index, const std::string& text);
+    void setBackground(const sf::Texture &texture);
+
 private:
     int selectedItemIndex;
     sf::Font font;
     std::vector<sf::Text> menu;
+    sf::Sprite backgroundSprite;
 };
 
-#endif
+#endif // MAINMENU_HPP

@@ -5,7 +5,8 @@
 using namespace std;
 using namespace sf;
 
-int main() {
+int main()
+{
     // Crear una ventana SFML
     RenderWindow window(VideoMode(600, 600), "Parallax Effect");
     window.setFramerateLimit(60);
@@ -13,26 +14,47 @@ int main() {
     // Crear el menú principal
     MainMenu menu(window.getSize().x, window.getSize().y);
 
-    // Bucle principal
-    while (window.isOpen()) {
+    // Configurar la imagen de fondo del menú
+    Texture menuBackgroundTexture;
+    if (!menuBackgroundTexture.loadFromFile("fondos/menu_background.png"))
+    {
+        return -1; // Error cargando la imagen de fondo del menú
+    }
+    menu.setBackground(menuBackgroundTexture);
+
+    // Configurar los textos de las opciones del menú
+    menu.setOptionText(0, "Jugar");
+    menu.setOptionText(1, "Terminar");
+
+    // Bucle principal del menú
+    while (window.isOpen())
+    {
         // Procesar eventos
         Event event;
-        while (window.pollEvent(event)) {
+        while (window.pollEvent(event))
+        {
             if (event.type == Event::Closed)
                 window.close();
-            if (event.type == Event::KeyPressed) {
-                if (event.key.code == Keyboard::Up) {
+            if (event.type == Event::KeyPressed)
+            {
+                if (event.key.code == Keyboard::Up)
+                {
                     menu.moveUp();
                 }
-                if (event.key.code == Keyboard::Down) {
+                if (event.key.code == Keyboard::Down)
+                {
                     menu.moveDown();
                 }
-                if (event.key.code == Keyboard::Return) {
+                if (event.key.code == Keyboard::Return)
+                {
                     int selectedItem = menu.getPressedItem();
-                    if (selectedItem == 0) {
+                    if (selectedItem == 0)
+                    {
                         // Opción "Jugar" seleccionada
                         goto game_loop;
-                    } else if (selectedItem == 1) {
+                    }
+                    else if (selectedItem == 1)
+                    {
                         // Opción "Terminar" seleccionada
                         window.close();
                     }
@@ -54,7 +76,8 @@ game_loop:
         !pyramidTexture.loadFromFile("fondos/primamid-pixilart.png") ||
         !desertTexture.loadFromFile("fondos/Vias del tren.png") ||
         !trainTexture.loadFromFile("fondos/gohancomoquedolamoto.png") ||
-        !characterTexture.loadFromFile("fondos/Izquierda.png")) {
+        !characterTexture.loadFromFile("fondos/Izquierda.png"))
+    {
         return -1; // Error cargando las imágenes
     }
 
@@ -101,20 +124,27 @@ game_loop:
     bool direction = 1;
 
     // Bucle principal del juego
-    while (window.isOpen()) {
-        if (characterSprite.getGlobalBounds().getPosition().y < groundLevel) {
+    while (window.isOpen())
+    {
+        if (characterSprite.getGlobalBounds().getPosition().y < groundLevel)
+        {
             pisando = 0;
-        } else {
+        }
+        else
+        {
             pisando = 1;
         }
 
         // Procesar eventos
         Event event;
-        while (window.pollEvent(event)) {
+        while (window.pollEvent(event))
+        {
             if (event.type == Event::Closed)
                 window.close();
-            if (event.type == Event::KeyPressed) {
-                if (event.key.code == Keyboard::W && (pisando == 1)) {
+            if (event.type == Event::KeyPressed)
+            {
+                if (event.key.code == Keyboard::W && (pisando == 1))
+                {
                     cout << "salto" << endl;
                     velocityY = -15.f;
                     gravity = 1.f;
@@ -125,12 +155,14 @@ game_loop:
         // Mover el personaje con WASD
         velocityY += gravity;
 
-        if (Keyboard::isKeyPressed(Keyboard::A)) {
+        if (Keyboard::isKeyPressed(Keyboard::A))
+        {
             characterSprite.setScale(0.7, 0.7);
             characterSprite.move(-characterSpeed, 0);
             direction = 1;
         }
-        if (Keyboard::isKeyPressed(Keyboard::D)) {
+        if (Keyboard::isKeyPressed(Keyboard::D))
+        {
             characterSprite.setScale(-0.7, 0.7);
             characterSprite.move(characterSpeed, 0);
             direction = 0;
@@ -141,15 +173,18 @@ game_loop:
         characterSprite.move(0, velocityY);
 
         // Verificar colisión con el suelo
-        if (characterSprite.getGlobalBounds().getPosition().y > groundLevel) {
+        if (characterSprite.getGlobalBounds().getPosition().y > groundLevel)
+        {
             characterSprite.move(0, -velocityY);
             gravity = 0;
         }
         // Verificar si el personaje se sale de la pantalla
-        if (characterSprite.getGlobalBounds().getPosition().x < 0) {
+        if (characterSprite.getGlobalBounds().getPosition().x < 0)
+        {
             characterSprite.setPosition(600, 335); // Reposicionar en el lado opuesto
         }
-        if (characterSprite.getGlobalBounds().getPosition().x > 600) {
+        if (characterSprite.getGlobalBounds().getPosition().x > 600)
+        {
             characterSprite.setPosition(50, 335); // Reposicionar en el lado opuesto
         }
 
