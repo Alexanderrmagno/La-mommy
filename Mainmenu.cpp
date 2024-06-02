@@ -7,7 +7,7 @@ MainMenu::MainMenu(float width, float height) {
 
     sf::Text playText;
     playText.setFont(font);
-    playText.setFillColor(sf::Color::Red);
+    playText.setFillColor(sf::Color::Blue);
     playText.setString("Jugar");
     playText.setPosition(sf::Vector2f(width / 2 - 50, height / 2 - 50));
     menu.push_back(playText);

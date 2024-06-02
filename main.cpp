@@ -15,14 +15,14 @@ int main() {
 
     // Configurar la imagen de fondo del menú
     Texture menuBackgroundTexture;
-    if (!menuBackgroundTexture.loadFromFile("fondos/portada.png")) {
+    if (!menuBackgroundTexture.loadFromFile("fondos/alterno.png")) {
         return -1; // Error cargando la imagen de fondo del menú
     }
     menu.setBackground(menuBackgroundTexture);
 
     // Configurar los textos de las opciones del menú
     menu.setOptionText(0, "Jugar");
-    menu.setOptionText(1, "Terminar");
+    menu.setOptionText(1, "Salir del juego");
 
     // Bucle principal del menú
     while (window.isOpen()) {
