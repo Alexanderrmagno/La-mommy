@@ -1,12 +1,62 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp> // Incluye la biblioteca de audio
 #include <vector>
 #include <iostream>
-#include "bullet .hpp"
+#include <cmath> // Para abs
 using namespace std;
 using namespace sf;
 
-int main()
-{
+class Enemy {
+public:
+    Sprite sprite;
+    float speed;
+    int direction; // 1 para derecha, -1 para izquierda
+    float attackDistance; // Distancia para atacar al jugador
+    int frame; // Para manejar la animación de los sprites
+    vector<Texture> textures;
+    float timeSinceLastFrame; // Tiempo transcurrido desde el último cambio de fotograma
+    float frameInterval; // Intervalo de tiempo entre cambios de fotograma
+
+    Enemy(const vector<Texture>& enemyTextures, float x, float y, float speed, float frameInterval)
+        : textures(enemyTextures), speed(speed), direction(1), attackDistance(50.0f), frame(0),
+          timeSinceLastFrame(0.0f), frameInterval(frameInterval) {
+        sprite.setTexture(textures[frame]);
+        sprite.setPosition(x, y);
+    }
+
+    void update(float deltaTime) {
+        move();
+        animate(deltaTime);
+    }
+
+    void move() {
+        sprite.move(speed * direction, 0);
+        if (sprite.getPosition().x < 0 || sprite.getPosition().x + sprite.getGlobalBounds().width > 600) {
+            direction *= -1;
+        }
+    }
+
+    void animate(float deltaTime) {
+        timeSinceLastFrame += deltaTime;
+        if (timeSinceLastFrame >= frameInterval) {
+            frame = (frame + 1) % textures.size();
+            sprite.setTexture(textures[frame]);
+            timeSinceLastFrame = 0.0f;
+        }
+    }
+
+    bool isNearPlayer(const Sprite& player) {
+        return abs(sprite.getPosition().x - player.getPosition().x) < attackDistance;
+    }
+
+    void attack(const Sprite& player) {
+        if (isNearPlayer(player)) {
+            cout << "Enemy attacks the player!" << endl;
+        }
+    }
+};
+
+int main() {
     // Crear una ventana SFML
     RenderWindow window(VideoMode(600, 600), "Parallax Effect");
     window.setFramerateLimit(60);
@@ -23,11 +73,12 @@ int main()
         return -1; // Error cargando las imágenes
     }
 
-    // Configurar las texturas repetidas si es necesario
-    skyTexture.setRepeated(true);
-    shadowTexture.setRepeated(true);
-    pyramidTexture.setRepeated(true);
-    desertTexture.setRepeated(true);
+    // Texturas del enemigo
+    Texture enemyTexture1, enemyTexture2;
+    if (!enemyTexture1.loadFromFile("fondos/Momia1-1.png") || !enemyTexture2.loadFromFile("fondos/Momia1-2.png")) {
+        return -1; // Error cargando las imágenes del enemigo
+    }
+    vector<Texture> enemyTextures = {enemyTexture1, enemyTexture2};
 
     // Crear sprites
     Sprite skySprite(skyTexture);
@@ -36,6 +87,9 @@ int main()
     Sprite desertSprite(desertTexture);
     Sprite trainSprite(trainTexture);
     Sprite characterSprite(characterTexture);
+
+    // Crear el enemigo con un intervalo de fotograma de 0.5 segundos (ajusta según sea necesario)
+    Enemy enemy(enemyTextures, 100, 335, 2.0f, 0.5f);
 
     // Configurar las escalas y rectángulos de textura si es necesario
     characterSprite.setScale(0.7, 0.7);
@@ -56,33 +110,44 @@ int main()
     float shadowSpeed = 2.f;
     float pyramidSpeed = 5.f;
     float desertSpeed = 10.f;
-
     float characterSpeed = 3.f;
+
     // Gravedad
     float gravity = 0.f;
     float velocityY = 0.f;
     float groundLevel = 335; // Nivel del tren
     bool pisando = 0;
-    bool direction= 1;
+    bool direction = 1;
+
+    // Reloj para medir el tiempo transcurrido
+    Clock clock;
+
+    // Cargar y reproducir música
+    Music gameMusic;
+    if (!gameMusic.openFromFile("musica/Naboris.mp3")) {
+        return -1; // Error cargando la música
+    }
+    gameMusic.setLoop(true); // Hacer que la música se repita
+    gameMusic.play();
 
     // Bucle principal
-    while (window.isOpen())
-    {
-        if(characterSprite.getGlobalBounds().getPosition().y < groundLevel){
+    while (window.isOpen()) {
+        // Calcular el tiempo transcurrido desde la última iteración
+        float deltaTime = clock.restart().asSeconds();
+
+        if(characterSprite.getGlobalBounds().top < groundLevel) {
             pisando = 0;
-        }else{
+        } else {
             pisando = 1;
         }
+        
         // Procesar eventos
         Event event;
-        while (window.pollEvent(event))
-        {
+        while (window.pollEvent(event)) {
             if (event.type == Event::Closed)
                 window.close();
-            if (event.type == Event::KeyPressed)
-            {
-                if (event.key.code == Keyboard::W && (pisando== 1))
-                {
+            if (event.type == Event::KeyPressed) {
+                if (event.key.code == Keyboard::W && pisando == 1) {
                     cout << "salto" << endl;
                     velocityY = -15.f;
                     gravity = 1.f;
@@ -93,39 +158,35 @@ int main()
         // Mover el personaje con WASD
         velocityY += gravity;
 
-        if (Keyboard::isKeyPressed(Keyboard::A))
-        {
+        if (Keyboard::isKeyPressed(Keyboard::A)) {
             characterSprite.setScale(0.7, 0.7);
             characterSprite.move(-characterSpeed, 0);
-            direction= 1;
+            direction = 1;
         }
-        if (Keyboard::isKeyPressed(Keyboard::D))
-        {
-                characterSprite.setScale(-0.7, 0.7);
+        if (Keyboard::isKeyPressed(Keyboard::D)) {
+            characterSprite.setScale(-0.7, 0.7);
             characterSprite.move(characterSpeed, 0);
             direction = 0;
         }
-        cout << direction;
 
         // Aplicar gravedad
         characterSprite.move(0, velocityY);
 
         // Verificar colisión con el suelo
-        if (characterSprite.getGlobalBounds().getPosition().y > groundLevel)
-        {
+        if (characterSprite.getGlobalBounds().top > groundLevel) {
             characterSprite.move(0, -velocityY);
             gravity = 0;
         }
+
         // Verificar si el personaje se sale de la pantalla
-        if (characterSprite.getGlobalBounds().getPosition().x < 0)
-        {
+        if (characterSprite.getGlobalBounds().left < 0) {
             characterSprite.setPosition(600, 335); // Reposicionar en el lado opuesto
         }
-        if (characterSprite.getGlobalBounds().getPosition().x > 600 )
-        {
+        if (characterSprite.getGlobalBounds().left + characterSprite.getGlobalBounds().width > 600) {
             characterSprite.setPosition(50, 335); // Reposicionar en el lado opuesto
         }
 
+<<<<<<< HEAD
         cout << direction;
 
         //Disparar
@@ -136,6 +197,11 @@ int main()
             gun.drawTo(window);
         }
 
+=======
+        // Actualizar el enemigo
+        enemy.update(deltaTime);
+        enemy.attack(characterSprite);
+>>>>>>> c56d6f0dcec5e38d37bc57c4e305958dd3955618
 
         // Actualizar las posiciones del escenario
         shadowSprite.move(-shadowSpeed, 0);
@@ -152,9 +218,11 @@ int main()
         window.draw(desertSprite);
         window.draw(trainSprite);
         window.draw(characterSprite);
+        window.draw(enemy.sprite); // Dibujar el enemigo
 
         // Mostrar lo dibujado en la ventana
         window.display();
     }
+
     return 0;
 }
