@@ -1,7 +1,7 @@
 #include "MainMenu.hpp"
 
 MainMenu::MainMenu(float width, float height) {
-    if (!font.loadFromFile("Fonts/")) {
+    if (!font.loadFromFile("Fonts/Yasin.ttf")) {
         // Manejar error
     }
 
@@ -35,7 +35,7 @@ void MainMenu::moveUp() {
     if (selectedItemIndex - 1 >= 0) {
         menu[selectedItemIndex].setFillColor(sf::Color::White);
         selectedItemIndex--;
-        menu[selectedItemIndex].setFillColor(sf::Color::Red);
+        menu[selectedItemIndex].setFillColor(sf::Color::Blue);
     }
 }
 
@@ -43,7 +43,7 @@ void MainMenu::moveDown() {
     if (selectedItemIndex + 1 < menu.size()) {
         menu[selectedItemIndex].setFillColor(sf::Color::White);
         selectedItemIndex++;
-        menu[selectedItemIndex].setFillColor(sf::Color::Red);
+        menu[selectedItemIndex].setFillColor(sf::Color::Blue);
     }
 }
 
