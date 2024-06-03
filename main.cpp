@@ -257,10 +257,10 @@ game_loop:
             gun.drawTo(window);
         }
 
-
         // Actualizar el enemigo
         enemy.update(deltaTime);
         enemy.attack(characterSprite);
+
         cout << direction;
 
         // Actualizar las posiciones del escenario
