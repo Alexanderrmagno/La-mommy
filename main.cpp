@@ -164,8 +164,6 @@ game_loop:
             characterSprite.setPosition(50, 335); // Reposicionar en el lado opuesto
         }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
         cout << direction;
 
         //Disparar
@@ -175,15 +173,12 @@ game_loop:
             cout << "bullet";
             gun.drawTo(window);
         }
-
-=======
+        
         // Actualizar el enemigo
         enemy.update(deltaTime);
         enemy.attack(characterSprite);
->>>>>>> c56d6f0dcec5e38d37bc57c4e305958dd3955618
-=======
+
         cout << direction;
->>>>>>> 72fd7fe3d10d102d21734e5162376868f939e8ad
 
         // Actualizar las posiciones del escenario
         shadowSprite.move(-shadowSpeed, 0);
