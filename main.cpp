@@ -61,7 +61,7 @@ public:
 
 int main() {
     // Crear una ventana SFML
-    RenderWindow window(VideoMode(600, 600), "Parallax Effect");
+    RenderWindow window(VideoMode(600, 600), "La Mommy: la venganza de anubis");
     window.setFramerateLimit(60);
 
     // Crear el menú principal
@@ -179,13 +179,6 @@ game_loop:
     Clock clock;
 
     // Cargar y reproducir música
-    Music gameMusic;
-    if (!gameMusic.openFromFile("musica/Naboris.mp3")) {
-        return -1; // Error cargando la música
-    }
-    gameMusic.setLoop(true); // Hacer que la música se repita
-    gameMusic.play();
-
 
     // Bucle principal del juego
     while (window.isOpen()) {
