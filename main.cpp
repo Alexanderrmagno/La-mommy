@@ -9,14 +9,16 @@
 using namespace sf;
 using namespace std;
 
-int main() {
+int main()
+{
     RenderWindow window(VideoMode(600, 600), "La Mommy: la venganza de anubis");
     window.setFramerateLimit(60);
 
     MainMenu menu(window.getSize().x, window.getSize().y);
 
     Texture menuBackgroundTexture;
-    if (!menuBackgroundTexture.loadFromFile("fondos/alterno.png")) {
+    if (!menuBackgroundTexture.loadFromFile("fondos/alterno.png"))
+    {
         return -1;
     }
     menu.setBackground(menuBackgroundTexture);
@@ -24,23 +26,32 @@ int main() {
     menu.setOptionText(0, "Jugar");
     menu.setOptionText(1, "Salir del juego");
 
-    while (window.isOpen()) {
+    while (window.isOpen())
+    {
         Event event;
-        while (window.pollEvent(event)) {
+        while (window.pollEvent(event))
+        {
             if (event.type == Event::Closed)
                 window.close();
-            if (event.type == Event::KeyPressed) {
-                if (event.key.code == Keyboard::Up) {
+            if (event.type == Event::KeyPressed)
+            {
+                if (event.key.code == Keyboard::Up)
+                {
                     menu.moveUp();
                 }
-                if (event.key.code == Keyboard::Down) {
+                if (event.key.code == Keyboard::Down)
+                {
                     menu.moveDown();
                 }
-                if (event.key.code == Keyboard::Return) {
+                if (event.key.code == Keyboard::Return)
+                {
                     int selectedItem = menu.getPressedItem();
-                    if (selectedItem == 0) {
+                    if (selectedItem == 0)
+                    {
                         goto game_loop;
-                    } else if (selectedItem == 1) {
+                    }
+                    else if (selectedItem == 1)
+                    {
                         window.close();
                     }
                 }
@@ -52,7 +63,7 @@ int main() {
     }
 
 game_loop:
-    Texture skyTexture, shadowTexture, pyramidTexture, desertTexture, trainTexture, characterTexture, playerHurtTexture, gameOverTexture, BarraVidaTexture;
+    Texture skyTexture, shadowTexture, pyramidTexture, desertTexture, trainTexture, characterTexture, playerHurtTexture, gameOverTexture, barraVidaTexture;
     if (!skyTexture.loadFromFile("fondos/fondosky.png") ||
         !shadowTexture.loadFromFile("fondos/Sombras.png") ||
         !pyramidTexture.loadFromFile("fondos/primamid-pixilart.png") ||
@@ -61,12 +72,14 @@ game_loop:
         !characterTexture.loadFromFile("fondos/Izquierda.png") ||
         !playerHurtTexture.loadFromFile("fondos/JugadorHerido.png") ||
         !gameOverTexture.loadFromFile("fondos/GameOver.png") ||
-        !BarraVidaTexture.loadFromFile("fondos/BarraVida.png")) { // Asegúrate de tener la imagen de la barra de vida
+        !barraVidaTexture.loadFromFile("fondos/BarraVida.png"))
+    {
         return -1;
     }
 
     Texture enemyTexture1, enemyTexture2;
-    if (!enemyTexture1.loadFromFile("fondos/Momia1-1.png") || !enemyTexture2.loadFromFile("fondos/Momia1-2.png")) {
+    if (!enemyTexture1.loadFromFile("fondos/Momia1-1.png") || !enemyTexture2.loadFromFile("fondos/Momia1-2.png"))
+    {
         return -1;
     }
     vector<Texture> enemyTextures = {enemyTexture1, enemyTexture2};
@@ -76,17 +89,20 @@ game_loop:
     pyramidTexture.setRepeated(true);
     desertTexture.setRepeated(true);
 
-    Background background(skyTexture, shadowTexture, pyramidTexture, desertTexture, trainTexture, BarraVidaTexture);
+    Background background(skyTexture, shadowTexture, pyramidTexture, desertTexture, trainTexture, barraVidaTexture);
     Player player(characterTexture, 300, 335, 3.f, 335);
-    Enemy enemy(enemyTextures, 100, 335, 2.0f, 0.5f, gameOverTexture);
+    Enemy enemy1(enemyTextures, 100, 335, 2.0f, 0.5f, gameOverTexture);
+    Enemy enemy2(enemyTextures, 100, 335, 2.0f, 0.5f, playerHurtTexture);
 
     Clock clock;
 
-    while (window.isOpen()) {
+    while (window.isOpen())
+    {
         float deltaTime = clock.restart().asSeconds();
 
         Event event;
-        while (window.pollEvent(event)) {
+        while (window.pollEvent(event))
+        {
             if (event.type == Event::Closed)
                 window.close();
         }
@@ -95,7 +111,7 @@ game_loop:
         player.applyGravity();
         player.checkBounds(600);
 
-        enemy.update(deltaTime, player.sprite, playerHurtTexture);
+        enemy.update(deltaTime, player);
         enemy.checkGameOver(window);
 
         background.move(2.f, 5.f, 10.f);

@@ -1,52 +1,66 @@
 #include "Jugador.hpp"
+#include <iostream>
 
-Player::Player(Texture& texture, float x, float y, float speed, float groundLevel)
-    : speed(speed), gravity(0.f), velocityY(0.f), groundLevel(groundLevel), pisando(0), direction(1) {
-    sprite.setTexture(texture);
+Player::Player(Texture &texture, float x, float y, float speed, float groundLevel)
+    : originalTexture(texture), speed(speed), groundLevel(groundLevel), velocityY(0.f), gravity(0.f), pisando(false), hurtDuration(seconds(0.5f))
+{
+    sprite.setTexture(originalTexture);
     sprite.setPosition(x, y);
     sprite.setScale(0.7, 0.7);
 }
 
-void Player::handleInput() {
-    if (Keyboard::isKeyPressed(Keyboard::A)) {
+void Player::handleInput()
+{
+    if (Keyboard::isKeyPressed(Keyboard::A))
+    {
         sprite.setScale(0.7, 0.7);
         sprite.move(-speed, 0);
-        direction = 1;
     }
-    if (Keyboard::isKeyPressed(Keyboard::D)) {
+    if (Keyboard::isKeyPressed(Keyboard::D))
+    {
         sprite.setScale(-0.7, 0.7);
         sprite.move(speed, 0);
-        direction = 0;
     }
-    if (Keyboard::isKeyPressed(Keyboard::W) && pisando) {
-        std::cout << "salto" << std::endl;
+    if (Keyboard::isKeyPressed(Keyboard::W) && pisando)
+    {
         velocityY = -15.f;
         gravity = 1.f;
     }
 }
 
-void Player::applyGravity() {
+void Player::applyGravity()
+{
     velocityY += gravity;
     sprite.move(0, velocityY);
-    if (sprite.getPosition().y > groundLevel) {
+
+    if (sprite.getPosition().y >= groundLevel)
+    {
         sprite.setPosition(sprite.getPosition().x, groundLevel);
+        pisando = true;
         gravity = 0;
-        velocityY = 0;
-        pisando = 1;
-    } else {
-        pisando = 0;
+    }
+    else
+    {
+        pisando = false;
     }
 }
 
-void Player::updatePosition() {
-    sprite.move(0, velocityY);
-}
-
-void Player::checkBounds(float screenWidth) {
-    if (sprite.getPosition().x < 0) {
-        sprite.setPosition(screenWidth, sprite.getPosition().y);
+void Player::checkBounds(float windowWidth)
+{
+    if (sprite.getPosition().x < 0)
+    {
+        sprite.setPosition(windowWidth, sprite.getPosition().y);
     }
-    if (sprite.getPosition().x > screenWidth) {
+    if (sprite.getPosition().x > windowWidth)
+    {
         sprite.setPosition(0, sprite.getPosition().y);
+    }
+}
+
+void Player::resetTexture()
+{
+    if (hurtClock.getElapsedTime() >= hurtDuration)
+    {
+        sprite.setTexture(originalTexture);
     }
 }
