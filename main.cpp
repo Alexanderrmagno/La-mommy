@@ -52,13 +52,15 @@ int main() {
     }
 
 game_loop:
-    Texture skyTexture, shadowTexture, pyramidTexture, desertTexture, trainTexture, characterTexture;
+    Texture skyTexture, shadowTexture, pyramidTexture, desertTexture, trainTexture, characterTexture, playerHurtTexture, gameOverTexture;
     if (!skyTexture.loadFromFile("fondos/fondosky.png") ||
         !shadowTexture.loadFromFile("fondos/Sombras.png") ||
         !pyramidTexture.loadFromFile("fondos/primamid-pixilart.png") ||
         !desertTexture.loadFromFile("fondos/Vias del tren.png") ||
         !trainTexture.loadFromFile("fondos/gohancomoquedolamoto.png") ||
-        !characterTexture.loadFromFile("fondos/Izquierda.png")) {
+        !characterTexture.loadFromFile("fondos/Izquierda.png") ||
+        !playerHurtTexture.loadFromFile("fondos/JugadorHerido.png") ||
+        !gameOverTexture.loadFromFile("fondos/GameOver.png")) {
         return -1;
     }
 
@@ -75,7 +77,7 @@ game_loop:
 
     Background background(skyTexture, shadowTexture, pyramidTexture, desertTexture, trainTexture);
     Player player(characterTexture, 300, 335, 3.f, 335);
-    Enemy enemy(enemyTextures, 100, 335, 2.0f, 0.5f);
+    Enemy enemy(enemyTextures, 100, 335, 2.0f, 0.5f, gameOverTexture);
 
     Clock clock;
 
@@ -92,8 +94,8 @@ game_loop:
         player.applyGravity();
         player.checkBounds(600);
 
-        enemy.update(deltaTime);
-        enemy.attack(player.sprite);
+        enemy.update(deltaTime, player.sprite, playerHurtTexture);
+        enemy.checkGameOver(window);
 
         background.move(2.f, 5.f, 10.f);
 
