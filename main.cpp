@@ -52,7 +52,7 @@ int main() {
     }
 
 game_loop:
-    Texture skyTexture, shadowTexture, pyramidTexture, desertTexture, trainTexture, characterTexture, playerHurtTexture, gameOverTexture;
+    Texture skyTexture, shadowTexture, pyramidTexture, desertTexture, trainTexture, characterTexture, playerHurtTexture, gameOverTexture, BarraVidaTexture;
     if (!skyTexture.loadFromFile("fondos/fondosky.png") ||
         !shadowTexture.loadFromFile("fondos/Sombras.png") ||
         !pyramidTexture.loadFromFile("fondos/primamid-pixilart.png") ||
@@ -60,7 +60,8 @@ game_loop:
         !trainTexture.loadFromFile("fondos/gohancomoquedolamoto.png") ||
         !characterTexture.loadFromFile("fondos/Izquierda.png") ||
         !playerHurtTexture.loadFromFile("fondos/JugadorHerido.png") ||
-        !gameOverTexture.loadFromFile("fondos/GameOver.png")) {
+        !gameOverTexture.loadFromFile("fondos/GameOver.png") ||
+        !BarraVidaTexture.loadFromFile("fondos/BarraVida.png")) { // Asegúrate de tener la imagen de la barra de vida
         return -1;
     }
 
@@ -75,7 +76,7 @@ game_loop:
     pyramidTexture.setRepeated(true);
     desertTexture.setRepeated(true);
 
-    Background background(skyTexture, shadowTexture, pyramidTexture, desertTexture, trainTexture);
+    Background background(skyTexture, shadowTexture, pyramidTexture, desertTexture, trainTexture, BarraVidaTexture);
     Player player(characterTexture, 300, 335, 3.f, 335);
     Enemy enemy(enemyTextures, 100, 335, 2.0f, 0.5f, gameOverTexture);
 
