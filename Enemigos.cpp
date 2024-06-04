@@ -2,9 +2,9 @@
 #include "Jugador.hpp"
 #include <iostream>
 
-Enemy::Enemy(const std::vector<Texture> &enemyTextures, float x, float y, float speed, float frameInterval, Texture &gameOverTexture)
+Enemy::Enemy(const std::vector<Texture> &enemyTextures, float x, float y, float speed, float frameInterval, Texture &gameOverTexture, Texture &playerHurtTexture)
     : textures(enemyTextures), speed(speed), direction(1), attackDistance(50.0f), frame(0),
-      timeSinceLastFrame(0.0f), frameInterval(frameInterval), playerLife(15), gameOverTexture(gameOverTexture), gameOver(false)
+      timeSinceLastFrame(0.0f), frameInterval(frameInterval), playerLife(15), gameOverTexture(gameOverTexture), playerHurtTexture(playerHurtTexture), gameOver(false)
 {
     sprite.setTexture(textures[frame]);
     sprite.setPosition(x, y);
@@ -80,3 +80,4 @@ void Enemy::checkGameOver(RenderWindow &window)
         }
     }
 }
+

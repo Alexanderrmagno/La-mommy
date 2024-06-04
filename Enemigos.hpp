@@ -19,11 +19,12 @@ public:
     float frameInterval;
     int playerLife;
     Texture &gameOverTexture;
+    Texture &playerHurtTexture;  // Añadido
     bool gameOver;
     Clock attackClock;
     Time attackCooldown;
 
-    Enemy(const std::vector<Texture> &enemyTextures, float x, float y, float speed, float frameInterval, Texture &gameOverTexture);
+    Enemy(const std::vector<Texture> &enemyTextures, float x, float y, float speed, float frameInterval, Texture &gameOverTexture, Texture &playerHurtTexture);
 
     void update(float deltaTime, Player &player);
     void move();
