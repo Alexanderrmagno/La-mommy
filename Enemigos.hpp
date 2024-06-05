@@ -11,6 +11,7 @@ class Enemy {
 public:
     std::vector<Texture> textures;
     std::vector<Texture> barraVidaTextures; // Añadido
+    bool alive;
     Sprite sprite;
     Sprite barraVidaSprite; // Añadido
     float speed;
@@ -26,7 +27,7 @@ public:
     Clock attackClock;
     Time attackCooldown;
 
-    Enemy(const std::vector<Texture>& enemyTextures, float x, float y, float speed, float frameInterval, Texture& gameOverTexture, Texture& playerHurtTexture, const std::vector<Texture>& barraVidaTextures); // Modificado
+    Enemy(const std::vector<Texture>& enemyTextures, float x, float y, float speed, float frameInterval, Texture& gameOverTexture, Texture& playerHurtTexture, const std::vector<Texture>& barraVidaTextures, bool alive); // Modificado
 
     void update(float deltaTime, Player& player);
     void move();

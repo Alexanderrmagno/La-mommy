@@ -12,6 +12,7 @@ class Player {
 public:
     Sprite sprite;
     Texture originalTexture;
+    bool direction;
     float speed;
     float groundLevel;
     float velocityY;

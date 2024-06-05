@@ -3,11 +3,14 @@
 #include "MainMenu.hpp"
 #include "Enemigos.hpp"
 #include "Jugador.hpp"
+#include "bullet .hpp"
 #include "EfectoParallax.hpp"
 #include <vector>
 
 using namespace sf;
 using namespace std;
+
+vector<Bullet>bullets;
 
 enum GameState
 {
@@ -96,7 +99,7 @@ int main()
 
     // Ajustar la posición vertical del jugador y del enemigo
     Player player(characterTexture, 300, trainYPosition, 3.f, trainYPosition);
-    Enemy enemy1(enemyTextures, 100, trainYPosition, 2.0f, 0.5f, gameOverTexture, playerHurtTexture, barraVidaTextures);
+    Enemy enemy1(enemyTextures, 100, trainYPosition, 2.0f, 0.5f, gameOverTexture, playerHurtTexture, barraVidaTextures, true);
 
     Clock clock;
 
@@ -160,6 +163,30 @@ int main()
             window.draw(player.sprite);
             window.draw(enemy1.sprite);
             window.draw(enemy1.barraVidaSprite); // Dibuja la barra de vida
+
+            if (Keyboard::isKeyPressed(Keyboard::E))
+            {
+                float xPlayer = player.sprite.getGlobalBounds().getPosition().x;
+                float yPlayer = player.sprite.getGlobalBounds().top +20;
+                Bullet gun(Vector2f(xPlayer,yPlayer), player.direction);
+                bullets.push_back(gun);
+            }
+
+
+        }
+        for(auto &r : bullets)
+        {
+                r.update(player);
+                r.drawTo(window);
+            if(r.shape.getGlobalBounds().getPosition().x == enemy1.sprite.getGlobalBounds().getPosition().x || 
+            r.shape.getGlobalBounds().getPosition().y == enemy1.sprite.getGlobalBounds().getPosition().y)
+            {
+                enemy1.alive = 0;
+            }
+            if(r.shape.getGlobalBounds().getPosition().x == 600 || r.shape.getGlobalBounds().getPosition().x  == 0)
+            {
+                r.vel = 0;
+            }
         }
 
         window.display();

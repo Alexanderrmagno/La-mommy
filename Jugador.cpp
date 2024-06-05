@@ -1,4 +1,5 @@
 #include "Jugador.hpp"
+#include "bullet .hpp"
 #include <iostream>
 
 Player::Player(Texture& texture, float x, float y, float speed, float groundLevel)
@@ -12,10 +13,12 @@ void Player::handleInput() {
     if (Keyboard::isKeyPressed(Keyboard::A)) {
         sprite.setScale(0.7, 0.7);
         sprite.move(-speed, 0);
+        direction = 0; //izquierda
     }
     if (Keyboard::isKeyPressed(Keyboard::D)) {
         sprite.setScale(-0.7, 0.7);
         sprite.move(speed, 0);
+        direction = 1; // derecha
     }
     if (Keyboard::isKeyPressed(Keyboard::W) && pisando) {
         velocityY = -15.f;
