@@ -17,6 +17,16 @@ enum GameState
 
 int main()
 {
+
+    SoundBuffer buffer;
+    if (!buffer.loadFromFile("Fondos/uy.wav"))
+    {
+        // Error handling...
+    }
+    Sound sound;
+    sound.setBuffer(buffer);
+    sound.play();
+
     RenderWindow window(VideoMode(600, 600), "La Mommy: la venganza de anubis");
     window.setFramerateLimit(60);
 
@@ -114,14 +124,7 @@ int main()
         }
         else if (state == GAME_RUNNING)
         {
-            SoundBuffer buffer;
-            if (!buffer.loadFromFile("Fondos/anani.wav"))
-            {
-                // Error handling...
-            }
-            Sound sound;
-            sound.setBuffer(buffer);
-            sound.play();
+            sound.stop();
             player.handleInput();
             player.applyGravity();
             player.checkBounds(600);
