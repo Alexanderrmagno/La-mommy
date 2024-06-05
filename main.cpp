@@ -65,7 +65,7 @@ int main()
     vector<Texture> barraVidaTextures(16);
     for (int i = 0; i <= 15; ++i)
     {
-        if (!barraVidaTextures[i].loadFromFile("fondos/BarraVida" + to_string(i) + ".png"))
+        if (!barraVidaTextures[i].loadFromFile("fondos/BarraVida.png" + to_string(i) + ".png"))
         {
             return -1;
         }
