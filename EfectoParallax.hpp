@@ -5,7 +5,8 @@
 
 using namespace sf;
 
-class Background {
+class Background
+{
 public:
     Sprite skySprite;
     Sprite shadowSprite;
@@ -14,11 +15,10 @@ public:
     Sprite trainSprite;
     Sprite barraVidaSprite;
 
-    Background(Texture& skyTexture, Texture& shadowTexture, Texture& pyramidTexture, Texture& desertTexture, Texture& trainTexture, Texture& barraVidaTexture);
+    Background(Texture &skyTexture, Texture &shadowTexture, Texture &pyramidTexture, Texture &desertTexture, Texture &trainTexture, Texture &barraVidaTexture);
 
     void move(float shadowSpeed, float pyramidSpeed, float desertSpeed, float trainSpeed);
-    void draw(RenderWindow& window);
+    void draw(RenderWindow &window);
 };
 
 #endif
-

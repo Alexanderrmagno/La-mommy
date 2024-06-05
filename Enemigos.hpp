@@ -7,13 +7,14 @@
 
 using namespace sf;
 
-class Enemy {
+class Enemy
+{
 public:
     std::vector<Texture> textures;
-    std::vector<Texture> barraVidaTextures; // Añadido
+    std::vector<Texture> barraVidaTextures;
     bool alive;
     Sprite sprite;
-    Sprite barraVidaSprite; // Añadido
+    Sprite barraVidaSprite;
     float speed;
     int direction;
     float attackDistance;
@@ -21,21 +22,21 @@ public:
     float timeSinceLastFrame;
     float frameInterval;
     int playerLife;
-    Texture& gameOverTexture;
-    Texture& playerHurtTexture;
+    Texture &gameOverTexture;
+    Texture &playerHurtTexture;
     bool gameOver;
     Clock attackClock;
     Time attackCooldown;
 
-    Enemy(const std::vector<Texture>& enemyTextures, float x, float y, float speed, float frameInterval, Texture& gameOverTexture, Texture& playerHurtTexture, const std::vector<Texture>& barraVidaTextures, bool alive); // Modificado
+    Enemy(const std::vector<Texture> &enemyTextures, float x, float y, float speed, float frameInterval, Texture &gameOverTexture, Texture &playerHurtTexture, const std::vector<Texture> &barraVidaTextures, bool alive); // Modificado
 
-    void update(float deltaTime, Player& player);
+    void update(float deltaTime, Player &player);
     void move();
     void animate(float deltaTime);
-    bool isNearPlayer(const Sprite& player);
-    void attack(Player& player);
-    void checkGameOver(RenderWindow& window);
-    void updateBarraVida(); // Añadido
+    bool isNearPlayer(const Sprite &player);
+    void attack(Player &player);
+    void checkGameOver(RenderWindow &window);
+    void updateBarraVida();
 };
 
 #endif

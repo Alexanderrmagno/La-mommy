@@ -9,14 +9,14 @@ Background::Background(Texture &skyTexture, Texture &shadowTexture, Texture &pyr
     desertSprite.setTexture(desertTexture);
     trainSprite.setTexture(trainTexture);
 
-    desertSprite.setScale(2,2);
+    desertSprite.setScale(2, 2);
 
     skySprite.setPosition(0, 0);
     barraVidaSprite.setPosition(0, 0);
     shadowSprite.setPosition(0, 20);
     pyramidSprite.setPosition(0, -100);
-    desertSprite.setPosition(0, 0);  
-    trainSprite.setPosition(0, -100);  
+    desertSprite.setPosition(0, 0);
+    trainSprite.setPosition(0, -100);
 
     skySprite.setTextureRect(IntRect(0, 0, 120000, 600));
     shadowSprite.setTextureRect(IntRect(0, 0, 120000, 600));
@@ -31,13 +31,16 @@ void Background::move(float shadowSpeed, float pyramidSpeed, float desertSpeed, 
     pyramidSprite.move(-pyramidSpeed, 0);
     desertSprite.move(-desertSpeed, 0);
 
-    if (shadowSprite.getPosition().x <= -120000) {
+    if (shadowSprite.getPosition().x <= -120000)
+    {
         shadowSprite.setPosition(0, shadowSprite.getPosition().y);
     }
-    if (pyramidSprite.getPosition().x <= -120000) {
+    if (pyramidSprite.getPosition().x <= -120000)
+    {
         pyramidSprite.setPosition(0, pyramidSprite.getPosition().y);
     }
-    if (desertSprite.getPosition().x <= -120000) {
+    if (desertSprite.getPosition().x <= -120000)
+    {
         desertSprite.setPosition(0, desertSprite.getPosition().y);
     }
 }
