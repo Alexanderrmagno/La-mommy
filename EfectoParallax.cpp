@@ -9,14 +9,14 @@ Background::Background(Texture &skyTexture, Texture &shadowTexture, Texture &pyr
     desertSprite.setTexture(desertTexture);
     trainSprite.setTexture(trainTexture);
 
-    desertSprite.setScale(2,2); //ajustar la escala del desert porquwe esta dibujado en 300*300
+    desertSprite.setScale(2,2);
 
     skySprite.setPosition(0, 0);
     barraVidaSprite.setPosition(0, 0);
     shadowSprite.setPosition(0, 20);
     pyramidSprite.setPosition(0, -100);
-    desertSprite.setPosition(0, 0);  // Ajusta la posición vertical según sea necesario
-    trainSprite.setPosition(0, -50);   // Ajusta la posición vertical según sea necesario
+    desertSprite.setPosition(0, 0);  
+    trainSprite.setPosition(0, -100);  
 
     skySprite.setTextureRect(IntRect(0, 0, 120000, 600));
     shadowSprite.setTextureRect(IntRect(0, 0, 120000, 600));
@@ -25,7 +25,7 @@ Background::Background(Texture &skyTexture, Texture &shadowTexture, Texture &pyr
     trainSprite.setTextureRect(IntRect(0, 0, 120000, 600));
 }
 
-void Background::move(float shadowSpeed, float pyramidSpeed, float desertSpeed, float /*trainSpeed*/)
+void Background::move(float shadowSpeed, float pyramidSpeed, float desertSpeed, float)
 {
     shadowSprite.move(-shadowSpeed, 0);
     pyramidSprite.move(-pyramidSpeed, 0);

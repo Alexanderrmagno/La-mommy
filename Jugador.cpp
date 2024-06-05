@@ -21,7 +21,7 @@ void Player::handleInput() {
         direction = 1; // derecha
     }
     if (Keyboard::isKeyPressed(Keyboard::W) && pisando) {
-        velocityY = -15.f;
+        velocityY = -20.f;
         gravity = 1.f;
     }
 }

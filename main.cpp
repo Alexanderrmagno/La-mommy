@@ -12,15 +12,18 @@ using namespace std;
 
 vector<Bullet> bullets;
 
-enum GameState {
+enum GameState
+{
     MAIN_MENU,
     GAME_RUNNING,
     GAME_OVER
 };
 
-int main() {
+int main()
+{
     SoundBuffer buffer;
-    if (!buffer.loadFromFile("Fondos/anani.wav")) {
+    if (!buffer.loadFromFile("Fondos/anani.wav"))
+    {
         // Error handling...
     }
     Sound sound;
@@ -33,7 +36,8 @@ int main() {
     MainMenu menu(window.getSize().x, window.getSize().y);
 
     Texture menuBackgroundTexture;
-    if (!menuBackgroundTexture.loadFromFile("fondos/neoPortada.png")) {
+    if (!menuBackgroundTexture.loadFromFile("fondos/neoPortada.png"))
+    {
         return -1;
     }
     menu.setBackground(menuBackgroundTexture);
@@ -52,20 +56,24 @@ int main() {
         !trainTexture.loadFromFile("fondos/gohancomoquedolamoto.png") ||
         !characterTexture.loadFromFile("fondos/Izquierda.png") ||
         !playerHurtTexture.loadFromFile("fondos/JugadorHerido.png") ||
-        !gameOverTexture.loadFromFile("fondos/GameOver.png")) {
+        !gameOverTexture.loadFromFile("fondos/GameOver.png"))
+    {
         return -1;
     }
 
     // Cargar texturas de la barra de vida
     vector<Texture> barraVidaTextures(16);
-    for (int i = 0; i <= 15; ++i) {
-        if (!barraVidaTextures[i].loadFromFile("fondos/BarraVida" + to_string(i) + ".png")) {
+    for (int i = 0; i <= 15; i++)
+    {
+        if (!barraVidaTextures[i].loadFromFile("fondos/BarraVida" + to_string(i) + ".png"))
+        {
             return -1;
         }
     }
 
     Texture enemyTexture1, enemyTexture2;
-    if (!enemyTexture1.loadFromFile("fondos/Momia1-1.png") || !enemyTexture2.loadFromFile("fondos/Momia1-2.png")) {
+    if (!enemyTexture1.loadFromFile("fondos/Anubis1.png") || !enemyTexture2.loadFromFile("fondos/Anubis1.png"))
+    {
         return -1;
     }
     vector<Texture> enemyTextures = {enemyTexture1, enemyTexture2};
@@ -79,35 +87,45 @@ int main() {
     Background background(skyTexture, shadowTexture, pyramidTexture, desertTexture, trainTexture, barraVidaTextures[15]);
 
     // Coordenadas verticales del tren
-    float trainYPosition = 400.0f; // Cambiar esta posición si es necesario
+    float trainYPosition = 335.0f;
 
     // Ajustar la posición vertical del jugador y del enemigo
     Player player(characterTexture, 300, trainYPosition, 3.f, trainYPosition);
-    Enemy enemy1(enemyTextures, 100, trainYPosition, 2.0f, 0.5f, gameOverTexture, playerHurtTexture, barraVidaTextures, true);
+    Enemy enemy1(enemyTextures, 60, 250, 2.0f, 0.5f, gameOverTexture, playerHurtTexture, barraVidaTextures, 5);
 
     Clock clock;
 
-    while (window.isOpen()) {
+    while (window.isOpen())
+    {
         float deltaTime = clock.restart().asSeconds();
 
         Event event;
-        while (window.pollEvent(event)) {
+        while (window.pollEvent(event))
+        {
             if (event.type == Event::Closed)
                 window.close();
 
-            if (state == MAIN_MENU) {
-                if (event.type == Event::KeyPressed) {
-                    if (event.key.code == Keyboard::Up) {
+            if (state == MAIN_MENU)
+            {
+                if (event.type == Event::KeyPressed)
+                {
+                    if (event.key.code == Keyboard::Up)
+                    {
                         menu.moveUp();
                     }
-                    if (event.key.code == Keyboard::Down) {
+                    if (event.key.code == Keyboard::Down)
+                    {
                         menu.moveDown();
                     }
-                    if (event.key.code == Keyboard::Return) {
+                    if (event.key.code == Keyboard::Return)
+                    {
                         int selectedItem = menu.getPressedItem();
-                        if (selectedItem == 0) {
+                        if (selectedItem == 0)
+                        {
                             state = GAME_RUNNING;
-                        } else if (selectedItem == 1) {
+                        }
+                        else if (selectedItem == 1)
+                        {
                             window.close();
                         }
                     }
@@ -117,9 +135,12 @@ int main() {
 
         window.clear();
 
-        if (state == MAIN_MENU) {
+        if (state == MAIN_MENU)
+        {
             menu.draw(window);
-        } else if (state == GAME_RUNNING) {
+        }
+        else if (state == GAME_RUNNING)
+        {
             sound.stop();
             player.handleInput();
             player.applyGravity();
@@ -132,25 +153,33 @@ int main() {
 
             background.draw(window);
             window.draw(player.sprite);
-            window.draw(enemy1.sprite);
             window.draw(enemy1.barraVidaSprite); // Dibuja la barra de vida
 
-            if (Keyboard::isKeyPressed(Keyboard::E)) {
+            if (Keyboard::isKeyPressed(Keyboard::E))
+            {
                 float xPlayer = player.sprite.getPosition().x;
                 float yPlayer = player.sprite.getPosition().y + 20;
                 Bullet gun(Vector2f(xPlayer, yPlayer), player.direction);
                 bullets.push_back(gun);
-            }
+                int c = 0;
+                for (auto &r : bullets)
+                {
+                    r.update(player);
+                    if (r.shape.getGlobalBounds().getPosition().x == enemy1.sprite.getGlobalBounds().getPosition().x ||
+                        r.shape.getGlobalBounds().getPosition().y == enemy1.sprite.getGlobalBounds().getPosition().y)
+                    {
+                        c = c + r.daño;
+                        r.hit = 1;
 
-            for (auto& r : bullets) {
-                r.update(player);
-                r.drawTo(window);
-                if (r.shape.getPosition().x == enemy1.sprite.getPosition().x ||
-                    r.shape.getPosition().y == enemy1.sprite.getPosition().y) {
-                    enemy1.alive = 0;
-                }
-                if (r.shape.getPosition().x == 600 || r.shape.getPosition().x == 0) {
-                    r.vel = 0;
+                        cout << "hit, vida de anubis: " << c << endl;
+                    }
+
+                    r.drawTo(window);
+                    if (r.shape.getGlobalBounds().getPosition().x == 600 || r.shape.getGlobalBounds().getPosition().x == 0)
+                    {
+                        r.vel = 0;
+                    }
+                    while (c <= enemy1.vida) window.draw(enemy1.sprite);
                 }
             }
         }
