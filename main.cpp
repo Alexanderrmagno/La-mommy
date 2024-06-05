@@ -36,7 +36,7 @@ int main()
     MainMenu menu(window.getSize().x, window.getSize().y);
 
     Texture menuBackgroundTexture;
-    if (!menuBackgroundTexture.loadFromFile("fondos/alterno.png"))
+    if (!menuBackgroundTexture.loadFromFile("fondos/neoPortada.png"))
     {
         return -1;
     }
