@@ -4,6 +4,7 @@
 #include "Enemigos.hpp"
 #include "Jugador.hpp"
 #include "EfectoParallax.hpp"
+#include <vector>
 
 using namespace sf;
 using namespace std;
@@ -17,7 +18,6 @@ enum GameState
 
 int main()
 {
-
     SoundBuffer buffer;
     if (!buffer.loadFromFile("Fondos/anani.wav"))
     {
@@ -45,7 +45,7 @@ int main()
     GameState state = MAIN_MENU;
 
     // Cargar texturas del juego
-    Texture skyTexture, shadowTexture, pyramidTexture, desertTexture, trainTexture, characterTexture, playerHurtTexture, gameOverTexture, barraVidaTexture;
+    Texture skyTexture, shadowTexture, pyramidTexture, desertTexture, trainTexture, characterTexture, playerHurtTexture, gameOverTexture;
     if (!skyTexture.loadFromFile("fondos/fondosky.png") ||
         !shadowTexture.loadFromFile("fondos/Sombras.png") ||
         !pyramidTexture.loadFromFile("fondos/primamid-pixilart.png") ||
@@ -53,8 +53,25 @@ int main()
         !trainTexture.loadFromFile("fondos/gohancomoquedolamoto.png") ||
         !characterTexture.loadFromFile("fondos/Izquierda.png") ||
         !playerHurtTexture.loadFromFile("fondos/JugadorHerido.png") ||
-        !gameOverTexture.loadFromFile("fondos/GameOver.png") ||
-        !barraVidaTexture.loadFromFile("fondos/BarraVida.png"))
+        !gameOverTexture.loadFromFile("fondos/GameOver.png"))
+    {
+        return -1;
+    }
+
+    // Cargar texturas de la barra de vida
+    vector<Texture> barraVidaTextures(16);
+    for (int i = 0; i <= 15; ++i)
+    {
+        if (!barraVidaTextures[i].loadFromFile("fondos/BarraVida" + to_string(i) + ".png"))
+        {
+            return -1;
+        }
+    }
+
+    Texture barraVidaTexture1, barraVidaTexture2, barraVidaTexture3; // Definir tantas texturas como necesites
+    if (!barraVidaTexture1.loadFromFile("barra_vida/vida_1.png") ||
+        !barraVidaTexture2.loadFromFile("barra_vida/vida_2.png") ||
+        !barraVidaTexture3.loadFromFile("barra_vida/vida_3.png"))
     {
         return -1;
     }
@@ -71,10 +88,15 @@ int main()
     pyramidTexture.setRepeated(true);
     desertTexture.setRepeated(true);
 
-    Background background(skyTexture, shadowTexture, pyramidTexture, desertTexture, trainTexture, barraVidaTexture);
-    Player player(characterTexture, 300, 335, 3.f, 335);
-    Enemy enemy1(enemyTextures, 100, 335, 2.0f, 0.5f, gameOverTexture, playerHurtTexture);
-    Enemy enemy2(enemyTextures, 200, 335, 2.0f, 0.5f, gameOverTexture, playerHurtTexture);
+    // Ajuste de fondo y elementos
+    Background background(skyTexture, shadowTexture, pyramidTexture, desertTexture, trainTexture, barraVidaTextures[15]);
+
+    // Coordenadas verticales del tren
+    float trainYPosition = 400.0f; // Cambiar esta posición si es necesario
+
+    // Ajustar la posición vertical del jugador y del enemigo
+    Player player(characterTexture, 300, trainYPosition, 3.f, trainYPosition);
+    Enemy enemy1(enemyTextures, 100, trainYPosition, 2.0f, 0.5f, gameOverTexture, playerHurtTexture, barraVidaTextures);
 
     Clock clock;
 
@@ -130,15 +152,14 @@ int main()
             player.checkBounds(600);
 
             enemy1.update(deltaTime, player);
-            enemy2.update(deltaTime, player);
             enemy1.checkGameOver(window);
 
-            background.move(2.f, 5.f, 10.f);
+            background.move(0.5f, 1.f, 2.f, 0.0f);
 
             background.draw(window);
             window.draw(player.sprite);
             window.draw(enemy1.sprite);
-            window.draw(enemy2.sprite);
+            window.draw(enemy1.barraVidaSprite); // Dibuja la barra de vida
         }
 
         window.display();

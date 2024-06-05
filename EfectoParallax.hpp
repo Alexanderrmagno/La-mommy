@@ -8,16 +8,17 @@ using namespace sf;
 class Background {
 public:
     Sprite skySprite;
-    Sprite barraVidaSprite; // Cambiado el nombre a barraVidaSprite para ser consistente
     Sprite shadowSprite;
     Sprite pyramidSprite;
     Sprite desertSprite;
     Sprite trainSprite;
+    Sprite barraVidaSprite;
 
     Background(Texture& skyTexture, Texture& shadowTexture, Texture& pyramidTexture, Texture& desertTexture, Texture& trainTexture, Texture& barraVidaTexture);
 
-    void move(float shadowSpeed, float pyramidSpeed, float desertSpeed);
+    void move(float shadowSpeed, float pyramidSpeed, float desertSpeed, float trainSpeed);
     void draw(RenderWindow& window);
 };
 
 #endif
+

@@ -8,8 +8,7 @@
 
 using namespace sf;
 
-class Player
-{
+class Player {
 public:
     Sprite sprite;
     Texture originalTexture;
@@ -18,10 +17,10 @@ public:
     float velocityY;
     float gravity;
     bool pisando;
-    Clock hurtClock;   // Reloj para manejar el tiempo de la textura de herido
+    Clock hurtClock; // Reloj para manejar el tiempo de la textura de herido
     Time hurtDuration; // Duración durante la cual se muestra la textura de herido
 
-    Player(Texture &texture, float x, float y, float speed, float groundLevel);
+    Player(Texture& texture, float x, float y, float speed, float groundLevel);
 
     void handleInput();
     void applyGravity();
@@ -29,4 +28,5 @@ public:
     void resetTexture(); // Método para resetear la textura del jugador
 };
 
-#endif
+#endif 
+

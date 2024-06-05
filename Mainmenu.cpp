@@ -1,8 +1,9 @@
 #include "MainMenu.hpp"
 
 MainMenu::MainMenu(float width, float height) {
-    if (!font.loadFromFile("Fonts/Yasin.ttf")) {
-        // Manejar error
+    if (!font.loadFromFile("Fonts/Yasin.ttf")) 
+    {
+        //Manejar error
     }
 
     sf::Text playText;
