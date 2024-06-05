@@ -19,7 +19,7 @@ int main()
 {
 
     SoundBuffer buffer;
-    if (!buffer.loadFromFile("Fondos/uy.wav"))
+    if (!buffer.loadFromFile("Fondos/anani.wav"))
     {
         // Error handling...
     }
