@@ -9,6 +9,8 @@ Background::Background(Texture &skyTexture, Texture &shadowTexture, Texture &pyr
     desertSprite.setTexture(desertTexture);
     trainSprite.setTexture(trainTexture);
 
+    desertSprite.setScale(2,2); //El desierto estaba dibujado en 300 * 300 y habia que ajustarlo a la pantalla
+
     skySprite.setPosition(0, 0);
     barraVidaSprite.setPosition(0, 0); // Ajusta la posición según sea necesario
     shadowSprite.setPosition(0, 20);

@@ -18,6 +18,7 @@ public:
     float velocityY;
     float gravity;
     bool pisando;
+    bool direction;
     Clock hurtClock;   // Reloj para manejar el tiempo de la textura de herido
     Time hurtDuration; // Duración durante la cual se muestra la textura de herido
 

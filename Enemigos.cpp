@@ -2,7 +2,7 @@
 #include "Jugador.hpp"
 #include <iostream>
 
-Enemy::Enemy(const std::vector<Texture> &enemyTextures, float x, float y, float speed, float frameInterval, Texture &gameOverTexture, Texture &playerHurtTexture)
+Enemy::Enemy(const std::vector<Texture> &enemyTextures, float x, float y, float speed, float frameInterval, Texture &gameOverTexture, Texture &playerHurtTexture, bool alive)
     : textures(enemyTextures), speed(speed), direction(1), attackDistance(50.0f), frame(0),
       timeSinceLastFrame(0.0f), frameInterval(frameInterval), playerLife(15), gameOverTexture(gameOverTexture), playerHurtTexture(playerHurtTexture), gameOver(false)
 {
@@ -13,6 +13,8 @@ Enemy::Enemy(const std::vector<Texture> &enemyTextures, float x, float y, float 
 
 void Enemy::update(float deltaTime, Player &player)
 {
+    if (alive)
+    {
     move();
     animate(deltaTime);
     if (attackClock.getElapsedTime() >= attackCooldown)
@@ -20,19 +22,25 @@ void Enemy::update(float deltaTime, Player &player)
         attack(player);
     }
     player.resetTexture(); // Verifica si es momento de resetear la textura del jugador
+    }
 }
 
 void Enemy::move()
 {
+    if (alive)
+    {
     sprite.move(speed * direction, 0);
     if (sprite.getPosition().x < 0 || sprite.getPosition().x + sprite.getGlobalBounds().width > 600)
     {
         direction *= -1;
     }
+    }
 }
 
 void Enemy::animate(float deltaTime)
 {
+    if (alive)
+    {
     timeSinceLastFrame += deltaTime;
     if (timeSinceLastFrame >= frameInterval)
     {
@@ -40,15 +48,21 @@ void Enemy::animate(float deltaTime)
         sprite.setTexture(textures[frame]);
         timeSinceLastFrame = 0.0f;
     }
+    }
 }
 
 bool Enemy::isNearPlayer(const Sprite &player)
 {
+    if (alive)
+    {
     return abs(sprite.getPosition().x - player.getPosition().x) < attackDistance;
+    }
 }
 
 void Enemy::attack(Player &player)
 {
+ if (alive)
+    {
     if (isNearPlayer(player.sprite))
     {
         playerLife -= 1;
@@ -57,10 +71,13 @@ void Enemy::attack(Player &player)
         player.hurtClock.restart();                  // Reinicia el reloj de herido
         attackClock.restart();                       // Reinicia el reloj de ataque
     }
+    }
 }
 
 void Enemy::checkGameOver(RenderWindow &window)
 {
+    if (alive)
+    {
     if (playerLife <= 0)
     {
         gameOver = true;
@@ -78,6 +95,7 @@ void Enemy::checkGameOver(RenderWindow &window)
                     window.close();
             }
         }
+    }
     }
 }
 

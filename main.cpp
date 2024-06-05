@@ -4,9 +4,12 @@
 #include "Enemigos.hpp"
 #include "Jugador.hpp"
 #include "EfectoParallax.hpp"
+#include "bullet .hpp"
 
 using namespace sf;
 using namespace std;
+
+vector <Bullet> bullets;
 
 enum GameState
 {
@@ -73,8 +76,8 @@ int main()
 
     Background background(skyTexture, shadowTexture, pyramidTexture, desertTexture, trainTexture, barraVidaTexture);
     Player player(characterTexture, 300, 335, 3.f, 335);
-    Enemy enemy1(enemyTextures, 100, 335, 2.0f, 0.5f, gameOverTexture, playerHurtTexture);
-    Enemy enemy2(enemyTextures, 200, 335, 2.0f, 0.5f, gameOverTexture, playerHurtTexture);
+    Enemy enemy1(enemyTextures, 100, 335, 2.0f, 0.5f, gameOverTexture, playerHurtTexture, true);
+    Enemy enemy2(enemyTextures, 200, 335, 2.0f, 0.5f, gameOverTexture, playerHurtTexture, true);
 
     Clock clock;
 
@@ -139,6 +142,37 @@ int main()
             window.draw(player.sprite);
             window.draw(enemy1.sprite);
             window.draw(enemy2.sprite);
+
+            if (Keyboard::isKeyPressed(Keyboard::E))
+            {
+                float xPlayer = player.sprite.getGlobalBounds().getPosition().x;
+                float yPlayer = player.sprite.getGlobalBounds().top +20;
+                Bullet gun(Vector2f(xPlayer,yPlayer), player.direction);
+                bullets.push_back(gun);
+            }
+            
+
+        }
+        for(auto &r : bullets)
+        {
+                r.update(player);
+                r.drawTo(window);
+            if(r.shape.getGlobalBounds().getPosition().x == enemy1.sprite.getGlobalBounds().getPosition().x || 
+            r.shape.getGlobalBounds().getPosition().y == enemy1.sprite.getGlobalBounds().getPosition().y)
+            {
+                enemy1.alive = 0;
+            }
+            if(r.shape.getGlobalBounds().getPosition().x == enemy2.sprite.getGlobalBounds().getPosition().x||
+            r.shape.getGlobalBounds().getPosition().y == enemy2.sprite.getGlobalBounds().getPosition().y)
+            {
+                enemy2.alive= 0;
+            }
+            if(r.shape.getGlobalBounds().getPosition().x == 600 || r.shape.getGlobalBounds().getPosition().x  == 0)
+            {
+                r.vel = 0;
+            }
+            
+
         }
 
         window.display();

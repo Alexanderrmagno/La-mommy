@@ -1,9 +1,11 @@
+#include "Jugador.hpp"
 #include <SFML/Graphics.hpp>
 #include <vector>
 
 using namespace sf;
 
-struct Bullet {
+class Bullet {
+    public:
     RectangleShape shape;
     int vel = 5.f;
     bool direct;
@@ -11,16 +13,18 @@ struct Bullet {
 
     Bullet(Vector2f position, bool direction) {
         this->shape.setPosition(position);
-        this->shape.setSize(Vector2f(40,20));
+        this->shape.setSize(Vector2f(3,5));
         this->shape.setFillColor(Color::Yellow);
         this->direct=direct;
     }
 
-    Vector2f update() {
-        if(direct == 1) vel=vel*(-1);
-
+    void update(Player &player) {
+    if(player.direction == 1){
         this->shape.move(vel,0);
-        return shape.getPosition();
+    }
+    if(player.direction == 0){
+        this->shape.move(-vel,0);
+    }
     }
 
     void drawTo(RenderWindow &window)
